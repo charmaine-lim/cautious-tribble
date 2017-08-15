@@ -71,6 +71,17 @@ void CMenu::Init()
 	vec_lines.push_back(new Line(glm::vec3(3, 3, 1), glm::vec3(3, -3, 1)));
 	vec_lines.push_back(new Line(glm::vec3(-3, -3, 1), glm::vec3(3, -3, 1)));
 
+	vec_lines.push_back(new Line(glm::vec3(-3, 3, 2), glm::vec3(3, 3, 2)));
+	vec_lines.push_back(new Line(glm::vec3(-3, 3, 2), glm::vec3(-3, -3, 2)));
+	vec_lines.push_back(new Line(glm::vec3(3, 3, 2), glm::vec3(3, -3, 2)));
+	vec_lines.push_back(new Line(glm::vec3(-3, -3, 2), glm::vec3(3, -3, 2)));
+
+	vec_lines.push_back(new Line(glm::vec3(-3, 3, 3), glm::vec3(3, 3, 3)));
+	vec_lines.push_back(new Line(glm::vec3(-3, 3, 3), glm::vec3(-3, -3, 3)));
+	vec_lines.push_back(new Line(glm::vec3(3, 3, 3), glm::vec3(3, -3, 3)));
+	vec_lines.push_back(new Line(glm::vec3(-3, -3, 3), glm::vec3(3, -3, 3)));
+
+
 	vec_lines.push_back(new Line(glm::vec3(-3, 3, 0), glm::vec3(-3, 3, 1)));
 
 	//m_pMainMenu.push_back(new TextLabel("Press IJKL to shoot", "Assets/Fonts/waltographUI.ttf"));

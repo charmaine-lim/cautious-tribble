@@ -1,8 +1,4 @@
-﻿  TextLabel.cpp
-c:\users\charmaine\documents\visual studio 2015\projects\3d pong\3d pong\textlabel.cpp(95): warning C4838: conversion from 'FT_Pos' to 'GLuint' requires a narrowing conversion
-c:\users\charmaine\documents\visual studio 2015\projects\3d pong\3d pong\textlabel.cpp(171): warning C4244: '+=': conversion from 'GLfloat' to 'int', possible loss of data
-c:\users\charmaine\documents\visual studio 2015\projects\3d pong\3d pong\textlabel.cpp(173): warning C4244: '=': conversion from 'GLfloat' to 'int', possible loss of data
-c:\users\charmaine\documents\visual studio 2015\projects\3d pong\3d pong\textlabel.cpp(239): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\charmaine\documents\visual studio 2015\projects\3d pong\3d pong\textlabel.cpp(249): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
-  3D Pong.vcxproj -> c:\users\charmaine\documents\visual studio 2015\Projects\3D Pong\Debug\3D Pong.exe
-  3D Pong.vcxproj -> c:\users\charmaine\documents\visual studio 2015\Projects\3D Pong\Debug\3D Pong.pdb (Partial PDB)
+﻿  Menu.cpp
+h:\repos\opengl3dpong\3d pong\menu.cpp(21): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  3D Pong.vcxproj -> H:\repos\OpenGL3Dpong\Debug\3D Pong.exe
+  3D Pong.vcxproj -> H:\repos\OpenGL3Dpong\Debug\3D Pong.pdb (Partial PDB)
