@@ -8,8 +8,7 @@
 //
 // File Name	: SceneManager.h
 // Description	: Scene Manager declaration file.
-// Authors		: Charmaine Lim and Cameron Peet
-// Mail			: Cameron.Peet@mediadesign.school.nz
+// Authors		: Charmaine Lim 
 // Mail			: Charmaine.Lim6440@mediadesign.school.nz
 //
 

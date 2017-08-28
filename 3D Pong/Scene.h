@@ -36,7 +36,7 @@ public:
 	virtual void Mouse(int button, int state, int x, int y) = 0;
 	virtual void KeyboardDown(unsigned char c, int x, int y) = 0;
 	virtual void KeyboardUp(unsigned char c, int x, int y) = 0;
-	virtual void NetworkProcess() = 0;
+	//virtual void NetworkProcess() = 0;
 	virtual void Reshape(int width, int height) = 0;
 
 protected:
@@ -44,6 +44,5 @@ protected:
 	//std::vector<CEntity*> m_pPlayerVector;
 	std::vector<TextLabel*> m_pTextVector;
 	std::vector<Model*> m_pModelVector;
-
 
 };

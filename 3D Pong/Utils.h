@@ -21,6 +21,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include <strstream>
+#include <string>
 
 class Model;
 
@@ -118,3 +120,13 @@ public:
 	static float HEIGHT;
 	static bool g_Play;
 };
+
+#define VALIDATE(a) if (!a) return (false)
+
+template<typename T>
+std::string ToString(const T& _value)
+{
+	std::strstream theStream;
+	theStream << _value << std::ends;
+	return (theStream.str());
+}

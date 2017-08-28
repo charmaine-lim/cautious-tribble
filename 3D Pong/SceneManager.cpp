@@ -8,15 +8,14 @@
 //
 // File Name	: SceneManager.cpp
 // Description	: Scene Manager implementation file.
-// Authors		: Charmaine Lim and Cameron Peet
-// Mail			: Cameron.Peet@mediadesign.school.nz
+// Authors		: Charmaine Lim 
 // Mail			: Charmaine.Lim6440@mediadesign.school.nz
 //
 
 #pragma once
 #include "SceneManager.h"
 #include "Menu.h"
-//#include "Game.h"
+#include "Game.h"
 
 #include "fmod/fmod.hpp"
 using namespace FMOD;
@@ -83,9 +82,9 @@ bool CSceneManager::Initialise()
 {
 	if (!m_bInit)
 	{
-		//m_pSceneMap.insert(std::pair<std::string, CScene*>("Game", CGame::GetInstance()));
-		//m_pSelectedScene = m_pSceneMap.find("Game")->second;
-		//m_pSelectedScene->Init();
+		m_pSceneMap.insert(std::pair<std::string, CScene*>("Game", CGame::GetInstance()));
+		m_pSelectedScene = m_pSceneMap.find("Game")->second;
+		m_pSelectedScene->Init();
 
 		m_pSceneMap.insert(std::pair<std::string, CScene*>("Menu", new CMenu()));
 		m_pSelectedScene = m_pSceneMap.find("Menu")->second;

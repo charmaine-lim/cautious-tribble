@@ -1,4 +1,0 @@
-﻿  Menu.cpp
-h:\repos\opengl3dpong\3d pong\menu.cpp(21): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  3D Pong.vcxproj -> H:\repos\OpenGL3Dpong\Debug\3D Pong.exe
-  3D Pong.vcxproj -> H:\repos\OpenGL3Dpong\Debug\3D Pong.pdb (Partial PDB)

@@ -15,24 +15,30 @@
 #include "Menu.h"
 #include "SceneManager.h"
 #include "utils.h"
+#include "Background.h"
 
-#include "Line.h"
+#include "Quadrilateral.h"
+Quadrilateral* m_pQuad;
 
-#include <vector>;
+CMenu::CMenu()
+{
 
-std::vector<Line*> vec_lines;
-Line* pline;
+}
 
+CMenu::~CMenu()
+{
 
+}
 
 void CMenu::Init()
 {
+	m_pQuad = new Quadrilateral();
 
 	m_pAllText.push_back(&m_pMainMenu);
-	m_pAllText.push_back(&m_pPlayMenu);
+	//m_pAllText.push_back(&m_pPlayMenu);
 	//m_pAllText.push_back(&m_pPlayerNames);
-	m_pAllText.push_back(&m_pFindMenu);
-	m_pAllText.push_back(&m_pGetNameMenu);
+	//m_pAllText.push_back(&m_pFindMenu);
+	//m_pAllText.push_back(&m_pGetNameMenu);
 	//m_pAllText.push_back(&m_pLobbyMenu);
 	//m_pAllText.push_back(&m_pServerBrowser);
 	//m_pAllText.push_back(&m_pServerNames);
@@ -56,33 +62,12 @@ void CMenu::Init()
 	m_pMainMenu[2]->setActive(false);
 	m_pMainMenu[2]->setButton(false);
 
-	//pline = new Line(glm::vec3(-1, 1, 0), glm::vec3(1, 1, 0));
-	//pline = new Line(glm::vec3(-1, 1, 0.5), glm::vec3(1, 1, 0.5));
-	pline = new Line(glm::vec3(-3, 3, 0), glm::vec3(3, 3, 0));
-	pline = new Line(glm::vec3(-3, 3, 1), glm::vec3(3, 3, 1));
+	m_pBackground = new Background();
 
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 0), glm::vec3(3, 3, 0)));
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 0), glm::vec3(-3, -3, 0)));
-	vec_lines.push_back(new Line(glm::vec3(3, 3, 0), glm::vec3(3, -3, 0)));
-	vec_lines.push_back(new Line(glm::vec3(-3,-3, 0), glm::vec3(3, -3, 0)));
+	
 
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 1), glm::vec3(3, 3, 1)));
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 1), glm::vec3(-3, -3, 1)));
-	vec_lines.push_back(new Line(glm::vec3(3, 3, 1), glm::vec3(3, -3, 1)));
-	vec_lines.push_back(new Line(glm::vec3(-3, -3, 1), glm::vec3(3, -3, 1)));
-
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 2), glm::vec3(3, 3, 2)));
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 2), glm::vec3(-3, -3, 2)));
-	vec_lines.push_back(new Line(glm::vec3(3, 3, 2), glm::vec3(3, -3, 2)));
-	vec_lines.push_back(new Line(glm::vec3(-3, -3, 2), glm::vec3(3, -3, 2)));
-
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 3), glm::vec3(3, 3, 3)));
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 3), glm::vec3(-3, -3, 3)));
-	vec_lines.push_back(new Line(glm::vec3(3, 3, 3), glm::vec3(3, -3, 3)));
-	vec_lines.push_back(new Line(glm::vec3(-3, -3, 3), glm::vec3(3, -3, 3)));
-
-
-	vec_lines.push_back(new Line(glm::vec3(-3, 3, 0), glm::vec3(-3, 3, 1)));
+	
+	
 
 	//m_pMainMenu.push_back(new TextLabel("Press IJKL to shoot", "Assets/Fonts/waltographUI.ttf"));
 	//m_pMainMenu[4]->setColor(glm::vec3(1.0f, 1.0f, 1.0f));
@@ -183,7 +168,7 @@ void CMenu::SetTextPositions()
 
 void CMenu::Render(GLuint program, Camera& camera)
 {
-
+	m_pBackground->Render(camera);
 
 	for (auto itr : m_pModels)
 	{
@@ -195,10 +180,7 @@ void CMenu::Render(GLuint program, Camera& camera)
 		itr->Render(camera);
 	}
 
-	for (auto itr : vec_lines)
-	{
-		itr->Render(camera);
-	}
+	m_pQuad->Render(camera);
 
 	/*if (m_strMenuName == "LobbyMenu")
 	{
@@ -208,7 +190,6 @@ void CMenu::Render(GLuint program, Camera& camera)
 		}
 	}*/
 
-	//pline->Render(camera);
 }
 
 
@@ -235,11 +216,72 @@ void CMenu::PassiveMotion(int x, int y)
 			}
 		}
 	}
+
+	//{
+	//	GLint viewport[4]; //var to hold the viewport info
+	//	GLdouble modelview[16]; //var to hold the modelview info
+	//	GLdouble projection[16]; //var to hold the projection matrix info
+	//	GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
+	//	GLdouble worldX, worldY, worldZ; //variables to hold world x,y,z coordinates
+
+	//	glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
+	//	glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
+	//	glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
+
+	//	winX = (float)x;
+	//	winY = (float)viewport[3] - (float)y;
+	//	winZ = 0;
+
+	//	//get the world coordinates from the screen coordinates
+	//	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+	//	int dkhgkg = 0;
+
+	//	m_pQuad->CreateQuad(glm::vec3(worldX, worldY, worldZ), 1, 1);
+
+	//	glm::mat4 projection = glm::perspective(45.0f, static_cast<GLfloat>(Utils::WIDTH) / static_cast<GLfloat>(Utils::HEIGHT), 0.1f, 100.0f);
+
+
+	//	//glm::mat4 model = glm::translate(model, position);
+	//	glm::mat4 model;
+	//	//glm::mat4 view;
+	//	//glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE, glm::value_ptr(camera.GetProjectionMatrix()));
+	//	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
+	//	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+	//	glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+	//}
+
+	
 }
 
 
 void CMenu::Mouse(int button, int state, int x, int y)
 {
+	//if any mouse button was pressed 
+	if (state == GLUT_DOWN) {
+
+
+		GLint viewport[4]; //var to hold the viewport info
+		GLdouble modelview[16]; //var to hold the modelview info
+		GLdouble projection[16]; //var to hold the projection matrix info
+		GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
+		GLdouble worldX, worldY, worldZ; //variables to hold world x,y,z coordinates
+
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
+		glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
+		glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
+
+		winX = (float)x;
+		winY = (float)viewport[3] - (float)y;
+		winZ = 0;
+
+		//get the world coordinates from the screen coordinates
+		gluUnProject(winX, winY, winZ, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+		int dkhgkg = 0;
+	}
+
+
+
 	y = glutGet(GLUT_WINDOW_HEIGHT) - y;
 	//Dp Nothing
 	if (button == GLUT_LEFT_BUTTON)
@@ -257,69 +299,69 @@ void CMenu::Mouse(int button, int state, int x, int y)
 						_rSceneManager.SelectScene("Game");
 					}
 
-					if (text == "Multiplayer")
-					{
-						//CSceneManager& _rSceneManager = CSceneManager::GetInstance();
-						////_rSceneManager.SelectScene("Game");
-						//m_pCurrentMenu = &m_pPlayMenu;
-						//Utils::g_Play = true;
-						//m_pName->setText("");
-						//m_pName->setPosition(glm::vec3((Utils::WIDTH / 2), Utils::HEIGHT / 8 + Utils::HEIGHT / 2, 10));
-						//m_strMenuName = "PlayMenu";
-					}
-					else if (text == "Exit")
-					{
-						m_bIsHost = false;
-						/*CNetwork& _rNetwork = CNetwork::GetInstance();
-						_rNetwork.GetNetworkEntity()->SetHost(false);
-						_rNetwork.GetNetworkEntity()->Suspend();*/
-						m_pCurrentMenu = &m_pMainMenu;
-						m_pName->setText("");
-						m_pName->setPosition(glm::vec3((Utils::WIDTH / 2), Utils::HEIGHT / 8 + Utils::HEIGHT / 2, 10));
+					//if (text == "Multiplayer")
+					//{
+					//	//CSceneManager& _rSceneManager = CSceneManager::GetInstance();
+					//	////_rSceneManager.SelectScene("Game");
+					//	//m_pCurrentMenu = &m_pPlayMenu;
+					//	//Utils::g_Play = true;
+					//	//m_pName->setText("");
+					//	//m_pName->setPosition(glm::vec3((Utils::WIDTH / 2), Utils::HEIGHT / 8 + Utils::HEIGHT / 2, 10));
+					//	//m_strMenuName = "PlayMenu";
+					//}
+					//else if (text == "Exit")
+					//{
+					//	m_bIsHost = false;
+					//	/*CNetwork& _rNetwork = CNetwork::GetInstance();
+					//	_rNetwork.GetNetworkEntity()->SetHost(false);
+					//	_rNetwork.GetNetworkEntity()->Suspend();*/
+					//	m_pCurrentMenu = &m_pMainMenu;
+					//	m_pName->setText("");
+					//	m_pName->setPosition(glm::vec3((Utils::WIDTH / 2), Utils::HEIGHT / 8 + Utils::HEIGHT / 2, 10));
 
-						m_strMenuName = "MainMenu";
+					//	m_strMenuName = "MainMenu";
 
-					}
+					//}
 					else if (text == "Quit")
 					{
 						glutLeaveMainLoop();
 						//Utils::g_Play = false;
 					}
-					else if (text == "Host")
-					{
-						/*CNetwork& _rNetwork = CNetwork::GetInstance();
-						_rNetwork.GetNetworkEntity()->SetHost(true);
-						_rNetwork.GetNetworkEntity()->Resume();
-						m_bIsHost = true;
-						m_strMenuName = "GetName";
-						m_pCurrentMenu = &m_pGetNameMenu;*/
-					}
-					else if (text == "Find")
-					{
-						/*m_pFindMenu.clear();
-						for (auto itr : m_pServerBrowser)
-						{
-							m_pFindMenu.push_back(itr);
-						}
-						CNetwork& _rNetwork = CNetwork::GetInstance();
-						_rNetwork.GetNetworkEntity()->SetHost(false);
-						_rNetwork.GetNetworkEntity()->Resume();
-						m_bIsHost = false;
-						m_strMenuName = "FindMenu";
-						m_pCurrentMenu = &m_pFindMenu;
-						FindGames();*/
-					}
-					else if (m_strMenuName == "FindMenu")
-					{
-						m_strMenuName = "GetName";
-						m_pCurrentMenu = &m_pGetNameMenu;
-						m_strServerName = itr->getText();
-						/*CNetwork& _rNetwork = CNetwork::GetInstance();
-						if (_rNetwork.GetNetworkEntity()->SelectServer(itr->getText()))
-						{
-						}
-						*/
-					}
+					//else if (text == "Host")
+					//{
+					//	/*CNetwork& _rNetwork = CNetwork::GetInstance();
+					//	_rNetwork.GetNetworkEntity()->SetHost(true);
+					//	_rNetwork.GetNetworkEntity()->Resume();
+					//	m_bIsHost = true;
+					//	m_strMenuName = "GetName";
+					//	m_pCurrentMenu = &m_pGetNameMenu;*/
+					//}
+					//else if (text == "Find")
+					//{
+					//	/*m_pFindMenu.clear();
+					//	for (auto itr : m_pServerBrowser)
+					//	{
+					//		m_pFindMenu.push_back(itr);
+					//	}
+					//	CNetwork& _rNetwork = CNetwork::GetInstance();
+					//	_rNetwork.GetNetworkEntity()->SetHost(false);
+					//	_rNetwork.GetNetworkEntity()->Resume();
+					//	m_bIsHost = false;
+					//	m_strMenuName = "FindMenu";
+					//	m_pCurrentMenu = &m_pFindMenu;
+					//	FindGames();*/
+					//}
+					//else if (m_strMenuName == "FindMenu")
+					//{
+					//	m_strMenuName = "GetName";
+					//	m_pCurrentMenu = &m_pGetNameMenu;
+					//	m_strServerName = itr->getText();
+					//	/*CNetwork& _rNetwork = CNetwork::GetInstance();
+					//	if (_rNetwork.GetNetworkEntity()->SelectServer(itr->getText()))
+					//	{
+					//	}
+					//	*/
+					//}
 					itr->setHighlighted(false);
 					break;
 				}
@@ -335,185 +377,185 @@ void CMenu::KeyboardDown(unsigned char c, int x, int y)
 
 void CMenu::KeyboardUp(unsigned char c, int x, int y)
 {
-	if (m_strMenuName == "GetName")
-	{
-		if (c == '\r')
-		{
-			/*if (m_pName->getText().length() >= 3)
-			{
-				m_pPlayerNames.push_back(m_pName);
-				CNetwork& _rNetwork = CNetwork::GetInstance();
-				_rNetwork.GetNetworkEntity()->SetName(m_pPlayMenu[3]->getText());
-				if (_rNetwork.GetNetworkEntity()->IsHost())
-				{
-					m_strMenuName = "LobbyMenu";
-					m_pCurrentMenu = &m_pLobbyMenu;
-				}
-				else
-				{
-					_rNetwork.GetNetworkEntity()->SetName(m_pName->getText());
-					_rNetwork.GetNetworkEntity()->SelectServer(m_strServerName);
+	//if (m_strMenuName == "GetName")
+	//{
+	//	if (c == '\r')
+	//	{
+	//		/*if (m_pName->getText().length() >= 3)
+	//		{
+	//			m_pPlayerNames.push_back(m_pName);
+	//			CNetwork& _rNetwork = CNetwork::GetInstance();
+	//			_rNetwork.GetNetworkEntity()->SetName(m_pPlayMenu[3]->getText());
+	//			if (_rNetwork.GetNetworkEntity()->IsHost())
+	//			{
+	//				m_strMenuName = "LobbyMenu";
+	//				m_pCurrentMenu = &m_pLobbyMenu;
+	//			}
+	//			else
+	//			{
+	//				_rNetwork.GetNetworkEntity()->SetName(m_pName->getText());
+	//				_rNetwork.GetNetworkEntity()->SelectServer(m_strServerName);
 
 
-				}
+	//			}
 
-			}*/
-		}
-		else if (m_pName->getText().length() < 12)
-		{
-			m_pName->AddText(c);
-		}
-	}
+	//		}*/
+	//	}
+	//	else if (m_pName->getText().length() < 12)
+	//	{
+	//		m_pName->AddText(c);
+	//	}
+	//}
 }
 
 void CMenu::Reshape(int width, int height)
 {
 	SetTextPositions();
 }
-bool CMenu::FindGames()
-{
-	/*CNetwork& _rNetwork = CNetwork::GetInstance();
-	return(_rNetwork.GetNetworkEntity()->BeginBroadcast());*/
-	return false;
-}
+//bool CMenu::FindGames()
+//{
+//	/*CNetwork& _rNetwork = CNetwork::GetInstance();
+//	return(_rNetwork.GetNetworkEntity()->BeginBroadcast());*/
+//	return false;
+//}
 
 void CMenu::Update(float fDeltaTime)
 {
 
 }
 
-void CMenu::NetworkProcess()
-{
-	if (m_bIsHost)
-	{
-		HostProcess();
-	}
-	else
-	{
-		ClientProcess();
-	}
-}
-
-void CMenu::HostProcess()
-{
-	/*CNetwork& _rNetwork = CNetwork::GetInstance();
-	if (!_rNetwork.GetNetworkEntity()->GetWorkQueue()->empty())
-	{
-		char* package = 0;
-		std::pair<std::string, char*> _package;
-		_rNetwork.GetNetworkEntity()->GetWorkQueue()->pop(_package);
-
-		TPacket packet;
-		packet.Deserialize(_package.second);
-		switch (packet.MessageType)
-		{
-		case BROADCAST:
-		{
-			std::cout << "Broadcast recv" << std::endl;
-			_rNetwork.GetNetworkEntity()->SendServerInfo(_package.first);
-			break;
-		}
-
-		case HANDSHAKE:
-		{
-			std::cout << "Handshake recv" << std::endl;
-
-			TClientDetails player;
-			ToSockaddr_in(_package.first, player.m_ClientAddress);
-			player.m_strName = packet.Sender;
-
-			if (_rNetwork.GetNetworkEntity()->AddClient(player))
-			{
-				_rNetwork.GetNetworkEntity()->AcceptHandshake(_package.first, true);
-				TextLabel* player = new TextLabel(packet.Sender, "Assets/Fonts/waltographUI.ttf");
-				player->setPosition(m_pPlayerNames[m_pPlayerNames.size() - 1]->position + glm::vec3(0, -50, 0));
-				m_pPlayerNames.push_back(player);
-				m_pLobbyMenu.push_back(player);
-				std::cout << "Handshake recv" << std::endl;
-			}
-			else
-			{
-				_rNetwork.GetNetworkEntity()->AcceptHandshake(_package.first, false);
-			}
-			break;
-		}
-
-
-		default:
-			break;
-		}
-	}*/
-}
-
-
-void CMenu::ClientProcess()
-{
-	/*CNetwork& _rNetwork = CNetwork::GetInstance();
-
-	if (!_rNetwork.GetNetworkEntity()->GetWorkQueue()->empty())
-	{
-		char* package = 0;
-		std::pair<std::string, char*> _package;
-		_rNetwork.GetNetworkEntity()->GetWorkQueue()->pop(_package);
-
-		TPacket packet;
-		packet.Deserialize(_package.second);
-		switch (packet.MessageType)
-		{
-		case BROADCAST:
-		{
-
-			_rNetwork.GetNetworkEntity()->AddServer(packet.Sender, _package.first);
-			TextLabel* label = new TextLabel(packet.Sender, "Assets/Fonts/waltographUI.ttf");
-			label->setPosition(glm::vec3(Utils::WIDTH / 2 - 100, Utils::HEIGHT - 200 - (50 * m_pServerNames.size()), 0));
-			label->setColor(glm::vec3(1.0f, 1.0f, 1.0f));
-			m_pServerNames.push_back(label);
-			m_pFindMenu.push_back(label);
-			break;
-		}
-
-		case HANDSHAKE:
-		{
-			m_pCurrentMenu = &m_pLobbyMenu;
-			m_strMenuName = "LobbyMenu";
-			std::cout << "Handshake recv" << std::endl;
-			m_pPlayerNames.push_back(m_pName);
-			TextLabel* player = new TextLabel(packet.Sender, "Assets/Fonts/waltographUI.ttf");
-			player->setPosition(m_pPlayerNames[m_pPlayerNames.size() - 1]->position + glm::vec3(0, -50, 0));
-			m_pLobbyMenu.push_back(player);
-			std::string playerName;
-			for (int i = 0; i < packet.m_MessageContents.length(); i++)
-			{
-				char c = packet.m_MessageContents.at(i);
-				if (c == ' ')
-				{
-					TextLabel* playerInLobby = new TextLabel(playerName, "Assets/Fonts/waltogrphUI.ttf");
-					playerInLobby->setPosition(m_pLobbyMenu[m_pLobbyMenu.size() - 1]->position + glm::vec3(0, -50, 0));
-					m_pLobbyMenu.push_back(playerInLobby);
-					playerName.clear();
-				}
-				else
-				{
-					playerName += c;
-				}
-			}
-			break;
-		}
-
-		case PLAYERJOINED:
-		{
-
-		}
-
-		case DENIED:
-		{
-
-			break;
-		}
-		default:
-			break;
-		}
-
-
-	}*/
-}
+//void CMenu::NetworkProcess()
+//{
+//	/*if (m_bIsHost)
+//	{
+//		HostProcess();
+//	}
+//	else
+//	{
+//		ClientProcess();
+//	}*/
+//}
+//
+//void CMenu::HostProcess()
+//{
+//	/*CNetwork& _rNetwork = CNetwork::GetInstance();
+//	if (!_rNetwork.GetNetworkEntity()->GetWorkQueue()->empty())
+//	{
+//		char* package = 0;
+//		std::pair<std::string, char*> _package;
+//		_rNetwork.GetNetworkEntity()->GetWorkQueue()->pop(_package);
+//
+//		TPacket packet;
+//		packet.Deserialize(_package.second);
+//		switch (packet.MessageType)
+//		{
+//		case BROADCAST:
+//		{
+//			std::cout << "Broadcast recv" << std::endl;
+//			_rNetwork.GetNetworkEntity()->SendServerInfo(_package.first);
+//			break;
+//		}
+//
+//		case HANDSHAKE:
+//		{
+//			std::cout << "Handshake recv" << std::endl;
+//
+//			TClientDetails player;
+//			ToSockaddr_in(_package.first, player.m_ClientAddress);
+//			player.m_strName = packet.Sender;
+//
+//			if (_rNetwork.GetNetworkEntity()->AddClient(player))
+//			{
+//				_rNetwork.GetNetworkEntity()->AcceptHandshake(_package.first, true);
+//				TextLabel* player = new TextLabel(packet.Sender, "Assets/Fonts/waltographUI.ttf");
+//				player->setPosition(m_pPlayerNames[m_pPlayerNames.size() - 1]->position + glm::vec3(0, -50, 0));
+//				m_pPlayerNames.push_back(player);
+//				m_pLobbyMenu.push_back(player);
+//				std::cout << "Handshake recv" << std::endl;
+//			}
+//			else
+//			{
+//				_rNetwork.GetNetworkEntity()->AcceptHandshake(_package.first, false);
+//			}
+//			break;
+//		}
+//
+//
+//		default:
+//			break;
+//		}
+//	}*/
+//}
+//
+//
+//void CMenu::ClientProcess()
+//{
+//	/*CNetwork& _rNetwork = CNetwork::GetInstance();
+//
+//	if (!_rNetwork.GetNetworkEntity()->GetWorkQueue()->empty())
+//	{
+//		char* package = 0;
+//		std::pair<std::string, char*> _package;
+//		_rNetwork.GetNetworkEntity()->GetWorkQueue()->pop(_package);
+//
+//		TPacket packet;
+//		packet.Deserialize(_package.second);
+//		switch (packet.MessageType)
+//		{
+//		case BROADCAST:
+//		{
+//
+//			_rNetwork.GetNetworkEntity()->AddServer(packet.Sender, _package.first);
+//			TextLabel* label = new TextLabel(packet.Sender, "Assets/Fonts/waltographUI.ttf");
+//			label->setPosition(glm::vec3(Utils::WIDTH / 2 - 100, Utils::HEIGHT - 200 - (50 * m_pServerNames.size()), 0));
+//			label->setColor(glm::vec3(1.0f, 1.0f, 1.0f));
+//			m_pServerNames.push_back(label);
+//			m_pFindMenu.push_back(label);
+//			break;
+//		}
+//
+//		case HANDSHAKE:
+//		{
+//			m_pCurrentMenu = &m_pLobbyMenu;
+//			m_strMenuName = "LobbyMenu";
+//			std::cout << "Handshake recv" << std::endl;
+//			m_pPlayerNames.push_back(m_pName);
+//			TextLabel* player = new TextLabel(packet.Sender, "Assets/Fonts/waltographUI.ttf");
+//			player->setPosition(m_pPlayerNames[m_pPlayerNames.size() - 1]->position + glm::vec3(0, -50, 0));
+//			m_pLobbyMenu.push_back(player);
+//			std::string playerName;
+//			for (int i = 0; i < packet.m_MessageContents.length(); i++)
+//			{
+//				char c = packet.m_MessageContents.at(i);
+//				if (c == ' ')
+//				{
+//					TextLabel* playerInLobby = new TextLabel(playerName, "Assets/Fonts/waltogrphUI.ttf");
+//					playerInLobby->setPosition(m_pLobbyMenu[m_pLobbyMenu.size() - 1]->position + glm::vec3(0, -50, 0));
+//					m_pLobbyMenu.push_back(playerInLobby);
+//					playerName.clear();
+//				}
+//				else
+//				{
+//					playerName += c;
+//				}
+//			}
+//			break;
+//		}
+//
+//		case PLAYERJOINED:
+//		{
+//
+//		}
+//
+//		case DENIED:
+//		{
+//
+//			break;
+//		}
+//		default:
+//			break;
+//		}
+//
+//
+//	}*/
+//}
